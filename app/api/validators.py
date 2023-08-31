@@ -60,11 +60,6 @@ async def check_the_project_before_updating(
         await check_name_duplicate(obj_in.name, session)
     if obj_in.full_amount is not None:
         await check_invested_amount(project_id, obj_in.full_amount, session)
-    if obj_in.full_amount is not None and proj.invested_amount > obj_in.full_amount:
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail='Сумма не может быть меньше уже внесенной!'
-        )
     return obj_in
 
 
