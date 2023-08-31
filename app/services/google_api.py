@@ -54,12 +54,10 @@ async def spreadsheets_update_value(
         ['Название проекта', 'Время сбора', 'Описание']
     ]
     for project in projects:
-        delta = project[4] - project[3]
         new_row = [
-            project[0],
-            str(project[1]),
-            f'{delta.days} day(s)',
-            str(project[2])
+            str(project['name']),
+            str(project['close_date'] - project['create_date']),
+            str(project['description'])
         ]
         table_values.append(new_row)
 
