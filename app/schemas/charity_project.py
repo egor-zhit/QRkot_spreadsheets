@@ -1,27 +1,16 @@
+from datetime import datetime
 from typing import Optional
 
-from pydantic import Field, PositiveInt, validator
-from .base import General_Scheme
+from pydantic import BaseModel, Extra, Field, PositiveInt, validator
 
 
-ERROR_MESSAGE = 'Данную строку нельзя редактировать'
-
-
-class ProjectBase(General_Scheme):
+class ProjectBase(BaseModel):
     name: Optional[str] = Field(None, min_length=1, max_length=100)
     description: Optional[str] = Field(None, min_length=1)
+    full_amount: Optional[PositiveInt]
 
-    @validator('name')
-    def name_not_empty(cls, value: str):
-        if not value:
-            raise ValueError('Не может быть пустым')
-        return value
-
-    @validator('description')
-    def description_not_empty(cls, value: str):
-        if not value:
-            raise ValueError('Не может быть пустым')
-        return value
+    class Config:
+        extra = Extra.forbid
 
 
 class ProjectCreate(ProjectBase):
@@ -29,36 +18,35 @@ class ProjectCreate(ProjectBase):
     description: str = Field(..., min_length=1)
     full_amount: PositiveInt
 
+    @validator('name')
+    def name_cant_be_null(cls, value):
+        if value is None:
+            raise ValueError('Название проекта не может быть пустым')
+        return value
+
+    @validator('description')
+    def description_cant_be_null(cls, value):
+        if value is None:
+            raise ValueError('Описание проекта не может быть пустым')
+        return value
+
+    @validator('full_amount')
+    def full_amount_cant_be_null(cls, value):
+        if value is None:
+            raise ValueError('Требуемая сумма должна быть больше нуля')
+        return value
+
 
 class ProjectUpdate(ProjectBase):
-
-    @validator('fully_invested')
-    def fully_invested(cls, value: bool):
-        if value is True:
-            raise ValueError('Закрытый проект нельзя редактировать')
-        return value
-
-    @validator('invested_amount')
-    def invested_amount(cls, value: bool):
-        if value:
-            raise ValueError(ERROR_MESSAGE)
-        return value
-
-    @validator('create_date')
-    def create_date(cls, value: bool):
-        if value:
-            raise ValueError(ERROR_MESSAGE)
-        return value
-
-    @validator('close_date')
-    def close_date(cls, value: bool):
-        if value:
-            raise ValueError(ERROR_MESSAGE)
-        return value
+    pass
 
 
-class ProjectDB(ProjectBase):
+class ProjectDB(ProjectCreate):
     id: int
+    invested_amount: int
+    fully_invested: bool
+    create_date: datetime
+    close_date: Optional[datetime]
 
     class Config:
         orm_mode = True

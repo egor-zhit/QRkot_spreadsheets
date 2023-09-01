@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from typing import Optional
+from typing import List, Optional
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.charity_project import CharityProject
@@ -37,19 +37,19 @@ class CRUDProject(CRUDBase):
     async def get_projects_by_completion_rate(
         self,
         session: AsyncSession,
-    ) -> list[dict[str, int]]:
-        db_project = await session.execute(
-            select(
-                CharityProject.name,
-                CharityProject.description,
-                CharityProject.create_date,
-                CharityProject.close_date
-            ).where(
-                CharityProject.fully_invested.is_(True)
-            ).order_by(CharityProject.close_date - CharityProject.create_date)
+    ) -> List[CharityProject]:
+
+        projects = await session.execute(
+            select(CharityProject).where(
+                CharityProject.fully_invested
+            )
         )
-        db_project = db_project.all()
-        return db_project
+
+        projects = projects.scalars().all()
+        projects.sort(
+            key=lambda project: project.close_date - project.create_date
+        )
+        return projects
 
 
 project_crud = CRUDProject(CharityProject)
