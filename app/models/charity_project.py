@@ -1,5 +1,4 @@
 from sqlalchemy import Column, String, Text
-from pydantic import Extra
 
 from .base import AbstractModelProject
 
