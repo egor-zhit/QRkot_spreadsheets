@@ -1,1 +1,5 @@
-Generic single-database configuration with an async dbapi.
+Примените миграции для создания базы данных SQLite:
+```
+alembic upgrade head
+```
+Проект готов к запуску.

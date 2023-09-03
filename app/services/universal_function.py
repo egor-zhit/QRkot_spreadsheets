@@ -10,7 +10,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 async def obj_close(
     obj: Union[CharityProject, Donation]
 ) -> Union[CharityProject, Donation]:
-    '''Функция закрытия модели!'''
+    '''Функция закрытия модели.
+    В данную функцию поступает обьект, который необходимо
+    закрыть, после процесса инвистирования. 
+    '''
     obj.invested_amount = obj.full_amount
     obj.fully_invested = True
     obj.close_date = datetime.now()
@@ -22,7 +25,7 @@ async def main_process_invest(
     project=None,
     donation=None
 ) -> Union[CharityProject, Donation]:
-    '''Функция инвестирования'''
+    '''Функция инвестирования.'''
     #Проверка аргументов, для каждого аргумента свои круд-функции
     if donation:
         crud_func = project_crud

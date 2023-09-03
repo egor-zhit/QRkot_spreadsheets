@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     app_title: str = 'Благотворительный проект'
     database_url: str = 'sqlite+aiosqlite:///./fastapi.db'
     secret: str = 'SECRET4362'
-    first_superuser_email: Optional[EmailStr] = 'zhitnikoveg@yandex.ru'
+    first_superuser_email: Optional[EmailStr] = 'fake@fake.org'
     first_superuser_password: Optional[str] = 'Pass2020!'
     type: Optional[str] = None
     project_id: Optional[str] = None

@@ -2,10 +2,11 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import Extra, PositiveInt
-from .base import General_Scheme
+
+from .base import GeneralScheme
 
 
-class DonationBase(General_Scheme):
+class DonationBase(GeneralScheme):
     full_amount: Optional[PositiveInt]
     comment: Optional[str]
 

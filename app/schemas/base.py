@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, PositiveInt
 
 
-class General_Scheme(BaseModel):
+class GeneralScheme(BaseModel):
     full_amount: Optional[PositiveInt]
     invested_amount: Optional[int] = 0
     fully_invested: Optional[bool] = False
