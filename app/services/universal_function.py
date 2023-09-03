@@ -12,7 +12,7 @@ async def obj_close(
 ) -> Union[CharityProject, Donation]:
     '''Функция закрытия модели.
     В данную функцию поступает обьект, который необходимо
-    закрыть, после процесса инвистирования. 
+    закрыть, после процесса инвистирования.
     '''
     obj.invested_amount = obj.full_amount
     obj.fully_invested = True
